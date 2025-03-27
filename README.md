@@ -1,2 +1,2 @@
 # TUI-Project
-Project in React creating project for university study
+Project in React for university study
