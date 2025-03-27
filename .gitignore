@@ -22,3 +22,33 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Build and Debug Files
+bin/
+obj/
+
+# User-specific files
+*.user
+*.vs/
+.vscode/
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Dependencies and Cache
+node_modules/
+*.nuget.cache
+*.nuget.props
+*.nuget.targets
+project.assets.json
+project.nuget.cache
+
+# Logs and Generated Files
+*.log
+logs/
+*.swp
+*.lock.json
+
+# Environment and Config Files
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
