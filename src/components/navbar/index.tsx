@@ -24,7 +24,7 @@ export const NavBar = () => {
             navbarScroll
           >
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/wares">Lista towarów</Nav.Link>
+            <Nav.Link href="/wares">Oferta</Nav.Link>
             <Nav.Link href="/about-us">O nas</Nav.Link>
           </Nav>
           <Container

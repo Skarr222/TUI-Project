@@ -3,12 +3,12 @@ import App from "./App.tsx";
 import * as ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import { WaresList } from "./pages/wares/wareList.tsx";
-import { AddWares } from "./pages/wares/addWares.tsx";
 import { Layout } from "./layout/Layout.tsx";
 import { WorkerList } from "./pages/admin/workers/workerList.tsx";
 import { Worker } from "./pages/admin/workers/worker.tsx";
 import { AboutUs } from "./pages/about/index.tsx";
+import { OffersList } from "./pages/offers/offersList.tsx";
+import { AddOffer } from "./pages/offers/AddOffer.tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -20,14 +20,16 @@ if (rootElement) {
           <Route path="/" element={<Layout />}>
             <Route index element={<App />} />
           </Route>
-          <Route path="/wares" element={<Layout />}>
-            <Route index element={<WaresList />} />
+          <Route path="/offers" element={<Layout />}>
+            <Route index element={<OffersList />} />
           </Route>
-          <Route path="/addWare" element={<Layout />}>
-            <Route index element={<AddWares />} />
-          </Route>
+
           <Route path="about" element={<Layout />}>
             <Route index element={<AboutUs />} />
+          </Route>
+          {/* Admin routes */}
+          <Route path="admin/addOffer" element={<Layout />}>
+            <Route index element={<AddOffer />} />
           </Route>
           <Route path="/admin/workers" element={<Layout />}>
             <Route index element={<WorkerList />} />

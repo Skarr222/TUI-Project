@@ -1,6 +1,6 @@
 import React from "react";
 
-export const WaresList = () => {
+export const OffersList = () => {
   return (
     <React.Fragment>
       <div>Lista Towarów</div>

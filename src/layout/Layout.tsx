@@ -14,7 +14,7 @@ export const Layout = () => {
     >
       <NavBar />
       <div style={{ flex: 1 }}>
-        <Container fluid>
+        <Container fluid style={{ padding: 0 }}>
           <Outlet />
         </Container>
       </div>

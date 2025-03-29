@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 
-export const AddWares = () => {
+export const AddOffer = () => {
   return (
     <React.Fragment>
       <Card>
