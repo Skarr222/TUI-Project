@@ -8,7 +8,8 @@ import { WorkerList } from "./pages/admin/workers/workerList.tsx";
 import { Worker } from "./pages/admin/workers/worker.tsx";
 import { AboutUs } from "./pages/about/index.tsx";
 import { OffersList } from "./pages/offers/offersList.tsx";
-import { AddOffer } from "./pages/offers/AddOffer.tsx";
+import { AddOffer } from "./pages/offers/addOffer.tsx";
+import { Login } from "./pages/user/login.tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -24,8 +25,11 @@ if (rootElement) {
             <Route index element={<OffersList />} />
           </Route>
 
-          <Route path="about" element={<Layout />}>
+          <Route path="/about" element={<Layout />}>
             <Route index element={<AboutUs />} />
+          </Route>
+          <Route path="/login" element={<Layout />}>
+            <Route index element={<Login />} />
           </Route>
           {/* Admin routes */}
           <Route path="admin/addOffer" element={<Layout />}>

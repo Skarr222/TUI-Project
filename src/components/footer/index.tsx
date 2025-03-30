@@ -2,7 +2,7 @@ import { Container, Nav, Navbar, Image, Col, Row } from "react-bootstrap";
 
 export const Footer = () => {
   return (
-    <Navbar bg="light" variant="light" className="mt-5 py-4 w-80 flex-column">
+    <Navbar bg="light" variant="light" className=" py-4 w-80 flex-column">
       <Container fluid>
         <Row className="w-100 text-start justify-content-center">
           <Col md={3} sm={6} className="mb-3">
