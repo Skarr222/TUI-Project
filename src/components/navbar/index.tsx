@@ -23,8 +23,8 @@ export const NavBar = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/offers">Oferta</Nav.Link>
+            <Nav.Link href="/">Wyszukaj</Nav.Link>
+            <Nav.Link href="/offers">Oferty</Nav.Link>
             <Nav.Link href="/about-us">O nas</Nav.Link>
           </Nav>
           <Container
@@ -36,7 +36,7 @@ export const NavBar = () => {
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
                 <p style={{ margin: 0 }}>Zaloguj</p>
-                <Image src="../public/account.svg" />
+                <Image src="../public/account.svg" width={35} height={35} />
               </Button>
             </Nav.Link>
           </Container>

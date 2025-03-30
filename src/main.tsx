@@ -10,39 +10,44 @@ import { AboutUs } from "./pages/about/index.tsx";
 import { OffersList } from "./pages/offers/offersList.tsx";
 import { AddOffer } from "./pages/offers/addOffer.tsx";
 import { Login } from "./pages/user/login.tsx";
+import { AuthProvider } from "./AuthContext.tsx";
+import AdminDashboard from "./pages/admin/index";
+import AdminLogin from "./pages/admin/login.tsx";
+import PrivateRoute from "./PrivateRoute.tsx";
+import { AdminLayout } from "./layout/AdminLayout.tsx";
 
 const rootElement = document.getElementById("root");
 
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<App />} />
-          </Route>
-          <Route path="/offers" element={<Layout />}>
-            <Route index element={<OffersList />} />
-          </Route>
-
-          <Route path="/about" element={<Layout />}>
-            <Route index element={<AboutUs />} />
-          </Route>
-          <Route path="/login" element={<Layout />}>
-            <Route index element={<Login />} />
-          </Route>
-          {/* Admin routes */}
-          <Route path="admin/addOffer" element={<Layout />}>
-            <Route index element={<AddOffer />} />
-          </Route>
-          <Route path="/admin/workers" element={<Layout />}>
-            <Route index element={<WorkerList />} />
-          </Route>
-          <Route path="/admin/worker" element={<Layout />}>
-            <Route index element={<Worker />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<App />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/offers" element={<OffersList />} />
+              <Route path="/about-us" element={<AboutUs />} />
+            </Route>
+            <Route path="/admin" element={<PrivateRoute />}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="addOffer" element={<Layout />}>
+                  <Route index element={<AddOffer />} />
+                </Route>
+                <Route path="workers" element={<Layout />}>
+                  <Route index element={<WorkerList />} />
+                </Route>
+                <Route path="worker" element={<Layout />}>
+                  <Route index element={<Worker />} />
+                </Route>
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </React.StrictMode>
   );
 } else {
