@@ -7,7 +7,7 @@ export const NavBar = () => {
         <Navbar.Brand href="/">
           <Image
             alt="logo-lorem-ipsum"
-            src={"../public/logo.png"}
+            src={"../logo.png"}
             style={{
               width: "auto",
               height: "75px",
@@ -36,7 +36,7 @@ export const NavBar = () => {
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
                 <p style={{ margin: 0 }}>Zaloguj</p>
-                <Image src="../public/account.svg" width={35} height={35} />
+                <Image src="../account.svg" width={35} height={35} />
               </Button>
             </Nav.Link>
           </Container>

@@ -12,7 +12,7 @@ export const HomeCarousel = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="../public/1.jpg"
+          src="../1.jpg"
           alt="Slide 1"
           style={{ objectFit: "cover", height: "100vh" }}
         />
@@ -20,7 +20,7 @@ export const HomeCarousel = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="../public/2.jpg"
+          src="../2.jpg"
           alt="Slide 2"
           style={{ objectFit: "cover", height: "100vh" }}
         />
@@ -28,7 +28,7 @@ export const HomeCarousel = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="../public/3.jpg"
+          src="../3.jpg"
           alt="Slide 3"
           style={{ objectFit: "cover", height: "100vh" }}
         />

@@ -9,7 +9,7 @@ export const Footer = () => {
             <Navbar.Brand href="/">
               <Image
                 alt="logo-lorem-ipsum"
-                src={"../public/logo.png"}
+                src={"../logo.png"}
                 style={{
                   width: "auto",
                   maxWidth: "250px",
@@ -66,21 +66,9 @@ export const Footer = () => {
         <Row className="mt-4 w-100 text-center">
           <Col xs={12}>
             <div className="d-flex justify-content-center gap-3 pt-3">
-              <Image
-                src="../public/facebook.svg"
-                height="24px"
-                alt="Facebook"
-              />
-              <Image
-                src="../public/twitter-x.svg"
-                height="24px"
-                alt="Twitter X"
-              />
-              <Image
-                src="../public/instagram.svg"
-                height="24px"
-                alt="Instagram"
-              />
+              <Image src="../facebook.svg" height="24px" alt="Facebook" />
+              <Image src="../twitter-x.svg" height="24px" alt="Twitter X" />
+              <Image src="../instagram.svg" height="24px" alt="Instagram" />
             </div>
             <p className="text-gray mt-2 mb-0">
               &copy; 2024 YourCompany. All rights reserved.

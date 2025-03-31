@@ -22,7 +22,7 @@ export function Home() {
               <Card.Body>
                 <Image
                   alt="logo-lorem-ipsum"
-                  src={"../public/logo.png"}
+                  src={"../logo.png"}
                   style={{
                     width: "100%",
                     maxWidth: "350px",
