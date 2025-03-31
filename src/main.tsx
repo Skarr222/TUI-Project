@@ -9,12 +9,13 @@ import { Worker } from "./pages/admin/workers/worker.tsx";
 import { AboutUs } from "./pages/about/index.tsx";
 import { OffersList } from "./pages/offers/offersList.tsx";
 import { AddOffer } from "./pages/offers/addOffer.tsx";
-import { Login } from "./pages/user/login.tsx";
 import { AuthProvider } from "./AuthContext.tsx";
 import AdminDashboard from "./pages/admin/index";
-import AdminLogin from "./pages/admin/login.tsx";
 import PrivateRoute from "./PrivateRoute.tsx";
 import { AdminLayout } from "./layout/AdminLayout.tsx";
+import { Login } from "./pages/auth/user/login.tsx";
+import AdminLogin from "./pages/auth/admin/login.tsx";
+import { Register } from "./pages/auth/register.tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -30,6 +31,7 @@ if (rootElement) {
               <Route path="/login" element={<Login />} />
               <Route path="/offers" element={<OffersList />} />
               <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/register" element={<Register />} />
             </Route>
             <Route path="/admin" element={<PrivateRoute />}>
               <Route element={<AdminLayout />}>

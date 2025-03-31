@@ -1,10 +1,29 @@
+import { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../AuthContext";
 
-export const Login = () => {
+function AdminLogin() {
+  const { loginAdmin, error } = useAuth();
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await loginAdmin(credentials);
+
+    if (!error) {
+      navigate("/admin");
+    }
+  };
+
   return (
     <div
       style={{
-        backgroundImage: "linear-gradient(to right, #f0f2f5, #e0e0e0)", // Dodanie gradientu jako tła
+        backgroundImage: "linear-gradient(to right, #f0f2f5, #e0e0e0)",
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
@@ -35,6 +54,12 @@ export const Login = () => {
                     placeholder="Wpisz swój adres email"
                     className="p-2"
                     style={{ borderRadius: "6px" }}
+                    onChange={(e) =>
+                      setCredentials({
+                        ...credentials,
+                        username: e.target.value,
+                      })
+                    }
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -44,6 +69,12 @@ export const Login = () => {
                     placeholder="Hasło"
                     className="p-2"
                     style={{ borderRadius: "6px" }}
+                    onChange={(e) =>
+                      setCredentials({
+                        ...credentials,
+                        password: e.target.value,
+                      })
+                    }
                   />
                 </Form.Group>
                 <Form.Group
@@ -63,6 +94,9 @@ export const Login = () => {
                   type="submit"
                   className="w-100 py-2"
                   style={{ borderRadius: "6px", fontWeight: "bold" }}
+                  onClick={(e) => {
+                    handleSubmit(e);
+                  }}
                 >
                   Zaloguj
                 </Button>
@@ -73,4 +107,6 @@ export const Login = () => {
       </Container>
     </div>
   );
-};
+}
+
+export default AdminLogin;
