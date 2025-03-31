@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp.Server.Models;
@@ -27,20 +28,31 @@ namespace ReactApp.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            var user = new User
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                Role = model.Role,
-            };
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = new User { UserName = model.Email, Email = model.Email };
+
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
-            {
                 return BadRequest(result.Errors);
-            }
 
-            return Ok(new { message = "User registered successfully" });
+            await _userManager.AddToRoleAsync(user, "Customer");
+
+            return Ok(new { message = "User registered as Customer" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("promote-to-admin")]
+        public async Task<IActionResult> PromoteToAdmin([FromBody] string userEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            if (user == null)
+                return NotFound("User not found");
+
+            await _userManager.AddToRoleAsync(user, "Admin");
+            return Ok(new { message = "User promoted to Admin" });
         }
 
         [HttpPost("login")]
@@ -55,7 +67,7 @@ namespace ReactApp.Server.Controllers
                 return Unauthorized(new { message = "Invalid email or password" });
 
             var token = _jwtService.GenerateToken(user);
-            return Ok(new { token, user = new { user.Email, user.Role } });
+            return Ok(new { token, user = new { user.Email, user } });
         }
     }
 }
