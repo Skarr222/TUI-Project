@@ -9,18 +9,15 @@ using ReactApp.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Add Identity
 builder
-    .Services.AddIdentity<User, IdentityRole>()
+    .Services.AddIdentity<User, Microsoft.AspNetCore.Identity.IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-// Configure JWT Authentication
 var secret =
     builder.Configuration["JwtSettings:Secret"]
     ?? throw new InvalidOperationException("JwtSettings:Secret is missing in configuration.");
@@ -50,10 +47,8 @@ builder
         };
     });
 
-// Add Services
 builder.Services.AddScoped<JwtService>();
 
-// Add Controllers
 builder.Services.AddControllers();
 
 var app = builder.Build();

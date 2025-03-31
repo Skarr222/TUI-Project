@@ -26,7 +26,12 @@ namespace ReactApp.Server.Services
                     "JwtSettings:Secret is missing in configuration."
                 );
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(
+                    _config["JwtSettings:Secret"]
+                        ?? throw new InvalidOperationException("JWT Secret is missing")
+                )
+            );
 
             var issuer =
                 _config["JwtSettings:Issuer"]
@@ -42,7 +47,6 @@ namespace ReactApp.Server.Services
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            // Ensure user properties are not null
             var userId = user.Id ?? throw new InvalidOperationException("User ID is null.");
             var userEmail =
                 user.Email ?? throw new InvalidOperationException("User email is null.");
