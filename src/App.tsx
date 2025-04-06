@@ -7,7 +7,7 @@ function App() {
       style={{
         position: "relative",
         width: "100%",
-        minHeight: "100vh", // Zmiana height na minHeight
+        minHeight: "100vh",
         overflow: "hidden",
       }}
     >

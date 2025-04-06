@@ -1,18 +1,19 @@
 // src/AuthContext.tsx
 
 import React, { createContext, useState, useContext, ReactNode } from "react";
+import { User } from "./models/User";
 
 interface AuthContextType {
   isCustomerAuthenticated: boolean;
-  customerUser: any | null; // Replace with customer user type
+  customerUser: User | null;
   customerToken: string | null;
   isAdminAuthenticated: boolean;
-  adminUser: any | null; // Replace with admin user type
+  adminUser: User | null;
   adminToken: string | null;
   isLoading: boolean;
   error: string | null;
-  loginCustomer: (credentials: any) => Promise<void>; // Replace with customer credentials type
-  loginAdmin: (credentials: any) => Promise<void>; // Replace with admin credentials type
+  loginCustomer: (credentials: Credentials) => Promise<void>;
+  loginAdmin: (credentials: Credentials) => Promise<void>;
   logoutCustomer: () => void;
   logoutAdmin: () => void;
 }
@@ -22,26 +23,31 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 interface AuthProviderProps {
   children: ReactNode;
 }
+interface Credentials {
+  email: string;
+  password: string;
+}
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isCustomerAuthenticated, setIsCustomerAuthenticated] = useState(
     !!localStorage.getItem("customerToken")
   );
-  const [customerUser, setCustomerUser] = useState<any | null>(null); // Replace with customer user type
+  const [customerUser, setCustomerUser] = useState<User | null>(null); // Replace with customer user type
   const [customerToken, setCustomerToken] = useState<string | null>(
     localStorage.getItem("customerToken")
   );
+
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(
     !!localStorage.getItem("adminToken")
   );
-  const [adminUser, setAdminUser] = useState<any | null>(null); // Replace with admin user type
+  const [adminUser, setAdminUser] = useState<User | null>(null); // Replace with admin user type
   const [adminToken, setAdminToken] = useState<string | null>(
     localStorage.getItem("adminToken")
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loginCustomer = async (credentials: any) => {
+  const loginCustomer = async (credentials: Credentials) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -61,13 +67,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setError(data.message || "Customer login failed");
       }
     } catch (err) {
+      console.error(err);
       setError("Network error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const loginAdmin = async (credentials: any) => {
+  const loginAdmin = async (credentials: Credentials) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -87,6 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setError(data.message || "Admin login failed");
       }
     } catch (err) {
+      console.error(err);
       setError("Network error");
     } finally {
       setIsLoading(false);
@@ -125,6 +133,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
