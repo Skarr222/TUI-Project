@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 
 function AdminLogin() {
-  const { loginAdmin, error } = useAuth();
+  const { loginAdmin, error, isLoading } = useAuth();
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const navigate = useNavigate();
@@ -44,49 +44,58 @@ function AdminLogin() {
                 className="text-center mb-4"
                 style={{ fontWeight: "bold", color: "#007bff" }}
               >
-                Zaloguj
+                Admin Login
               </h3>
-              <Form>
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label className="text-start">Email</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Wpisz swój adres email"
+                    placeholder="Enter your email"
                     className="p-2"
                     style={{ borderRadius: "6px" }}
+                    value={credentials.email}
                     onChange={(e) =>
                       setCredentials({
                         ...credentials,
-                        username: e.target.value,
+                        email: e.target.value,
                       })
                     }
+                    required
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Hasło</Form.Label>
+                  <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder="Hasło"
+                    placeholder="Password"
                     className="p-2"
                     style={{ borderRadius: "6px" }}
+                    value={credentials.password}
                     onChange={(e) =>
                       setCredentials({
                         ...credentials,
                         password: e.target.value,
                       })
                     }
+                    required
                   />
                 </Form.Group>
                 <Form.Group
                   className="mb-3 d-flex justify-content-between"
                   controlId="formBasicCheckbox"
                 >
-                  <Form.Check type="checkbox" label="Zapamiętaj" />
+                  <Form.Check type="checkbox" label="Remember me" />
                   <a
                     href="#"
                     style={{ textDecoration: "none", color: "#007bff" }}
                   >
-                    Zapomniałeś hasła?
+                    Forgot password?
                   </a>
                 </Form.Group>
                 <Button
@@ -94,11 +103,9 @@ function AdminLogin() {
                   type="submit"
                   className="w-100 py-2"
                   style={{ borderRadius: "6px", fontWeight: "bold" }}
-                  onClick={(e) => {
-                    handleSubmit(e);
-                  }}
+                  disabled={isLoading}
                 >
-                  Zaloguj
+                  {isLoading ? "Logging in..." : "Login"}
                 </Button>
               </Form>
             </Card>

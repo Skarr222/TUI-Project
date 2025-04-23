@@ -7,7 +7,8 @@ export const Register = () => {
         backgroundImage: "linear-gradient(to right, #f0f2f5, #e0e0e0)",
         minHeight: "100vh",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-center",
+        paddingTop: "10%",
       }}
     >
       <Container>

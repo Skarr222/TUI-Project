@@ -16,6 +16,9 @@ import { AdminLayout } from "./layout/AdminLayout.tsx";
 import { Login } from "./pages/auth/user/login.tsx";
 import AdminLogin from "./pages/auth/admin/login.tsx";
 import { Register } from "./pages/auth/register.tsx";
+import { Terms } from "./pages/legal/terms.tsx";
+import { Privacy } from "./pages/legal/privacy.tsx";
+import { DataProtection } from "./pages/legal/data-protection.tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -30,22 +33,35 @@ if (rootElement) {
               <Route index element={<App />} />
               <Route path="/login" element={<Login />} />
               <Route path="/offers" element={<OffersList />} />
-              <Route path="/about-us" element={<AboutUs />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/regulamin" element={<Terms />} />
+              <Route path="/polityka-prywatnosci" element={<Privacy />} />
+              <Route
+                path="/ochrona-danych-osobowych"
+                element={<DataProtection />}
+              />
+              <Route
+                path="/offers"
+                element={
+                  <PrivateRoute>
+                    <OffersList />
+                  </PrivateRoute>
+                }
+              />
             </Route>
-            <Route path="/admin" element={<PrivateRoute />}>
-              <Route element={<AdminLayout />}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="addOffer" element={<Layout />}>
-                  <Route index element={<AddOffer />} />
-                </Route>
-                <Route path="workers" element={<Layout />}>
-                  <Route index element={<WorkerList />} />
-                </Route>
-                <Route path="worker" element={<Layout />}>
-                  <Route index element={<Worker />} />
-                </Route>
-              </Route>
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute requireAdmin>
+                  <AdminLayout />
+                </PrivateRoute>
+              }
+            >
+              <Route index element={<AdminDashboard />} />
+              <Route path="addOffer" element={<AddOffer />} />
+              <Route path="workers" element={<WorkerList />} />
+              <Route path="worker" element={<Worker />} />
             </Route>
           </Routes>
         </BrowserRouter>

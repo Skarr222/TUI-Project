@@ -1,7 +1,25 @@
-import { Card, Col, Container, Image, Row, Button } from "react-bootstrap"; // Import Button
+import { useState } from "react";
+import {
+  Card,
+  Col,
+  Container,
+  Image,
+  Row,
+  Button,
+  Form,
+} from "react-bootstrap";
 import { HomeCarousel } from "../components/home/carousel";
+import { useNavigate } from "react-router-dom";
 
 export function Home() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate(`/offers?search=${encodeURIComponent(searchTerm)}`);
+  };
+
   return (
     <div>
       <HomeCarousel />
@@ -10,62 +28,52 @@ export function Home() {
         className="position-absolute h-100 d-flex justify-content-center align-items-center"
         style={{ zIndex: 2 }}
       >
-        <Row className="justify-content-center">
-          <Col xs={12} md={8} lg={6}>
-            <Card
+        <Row className="justify-content-center text-center w-100">
+          <Col md={10} lg={8}>
+            <Image
+              alt="logo-lorem-ipsum"
+              src={"../logo.png"}
               style={{
-                padding: "20px",
-                background: "rgba(255, 255, 255, 0.8)",
-                backdropFilter: "blur(5px)",
+                width: "100%",
+                maxWidth: "350px",
+                height: "auto",
+                objectFit: "contain",
+              }}
+              className="img-fluid mx-auto d-block"
+            />
+
+            <Card
+              className="p-4 shadow-lg mx-auto"
+              style={{
+                background: "rgba(255, 255, 255, 0.9)",
+                maxWidth: "800px",
               }}
             >
-              <Card.Body>
-                <Image
-                  alt="logo-lorem-ipsum"
-                  src={"../logo.png"}
-                  style={{
-                    width: "100%",
-                    maxWidth: "350px",
-                    height: "auto",
-                    objectFit: "contain",
-                  }}
-                  className="img-fluid mx-auto d-block"
-                />
-                <p className="text-start pt-2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Aliquam placerat nulla ut tortor bibendum, a molestie sem
-                  gravida. Pellentesque posuere sollicitudin eros eu vehicula.
-                  Phasellus a neque in est condimentum volutpat. Vivamus
-                  facilisis nisi egestas, condimentum felis vitae, elementum
-                  dui.
-                </p>
-                <div className="d-flex justify-content-center">
-                  <Button
-                    variant="outline-dark"
-                    className="p-2 mt-4"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <p style={{ margin: 0, marginRight: "8px" }}>
-                      Zobacz ofertę
-                    </p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      viewBox="0 0 16 16"
+              <Form onSubmit={handleSearch}>
+                <Row className="align-items-center gx-3">
+                  <Col md={10} className="mb-3 mb-md-0">
+                    <Form.Control
+                      type="search"
+                      placeholder="Wpisz destynację..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="form-control-lg"
+                      style={{ borderRadius: "30px", height: "60px" }}
+                    />
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      size="lg"
+                      className="w-100"
+                      style={{ borderRadius: "30px", height: "60px" }}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
-                      />
-                    </svg>
-                  </Button>
-                </div>
-              </Card.Body>
+                      Szukaj
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
             </Card>
           </Col>
         </Row>
