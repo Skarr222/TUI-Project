@@ -16,45 +16,54 @@ export const NavBar = () => {
         fluid
         className="d-flex flex-wrap justify-content-between align-items-center"
       >
-        {/* Left Nav */}
-        <Nav className="d-none d-xl-flex gap-4">
-          <Nav.Link href="/offers" className="text-white fw-semibold fs-5">
-            💼 Oferty
-          </Nav.Link>
-          <Nav className="d-none d-xl-flex">
-            <Nav.Link href="/about-us" className="text-white fw-semibold fs-5">
-              🧭 O nas
-            </Nav.Link>
-          </Nav>
-        </Nav>
-
-        {/* Center Logo */}
-        <Navbar.Brand href="/" className="mx-auto">
+        {/* Logo hidden on mobile */}
+        <Navbar.Brand
+          href="/"
+          className="d-none d-xl-flex align-items-center mx-0"
+        >
           <Image
             alt="logo-lorem-ipsum"
             src="../logo.svg"
-            style={{ height: "60px", objectFit: "contain" }}
+            style={{ height: "60px" }}
             className="img-fluid"
           />
         </Navbar.Brand>
 
-        {/* Right Nav */}
-        <div className="d-flex gap-4 align-items-center">
-          <Nav.Link href="/login">
-            <Button
-              variant="light"
-              className="d-flex align-items-center gap-2 px-4 py-2 rounded-pill shadow-sm"
-            >
-              <span className="fw-medium text-primary">Zaloguj</span>
-              <Image
-                src="../account.svg"
-                width={30}
-                height={30}
-                alt="account icon"
-              />
-            </Button>
-          </Nav.Link>
-        </div>
+        {/* Hamburger menu */}
+        <Navbar.Toggle aria-controls="navbar-nav" className="border-0" />
+
+        {/* Collapsible Nav */}
+        <Navbar.Collapse id="navbar-nav" className="justify-content-between">
+          <Nav className="gap-4 align-items-center mx-auto">
+            <Nav.Link href="/" className="text-white fw-semibold fs-5">
+              🔍 Wyszukaj
+            </Nav.Link>
+            <Nav.Link href="/offers" className="text-white fw-semibold fs-5">
+              💼 Oferty
+            </Nav.Link>
+            <Nav.Link href="/about-us" className="text-white fw-semibold fs-5">
+              🧭 O nas
+            </Nav.Link>
+          </Nav>
+
+          {/* Login Button moved inside Collapse */}
+          <div className="d-flex justify-content-center justify-content-xl-end mt-3 mt-xl-0">
+            <Nav.Link href="/login" className="p-0">
+              <Button
+                variant="light"
+                className="d-flex align-items-center gap-2 px-4 py-2 rounded-pill shadow-sm"
+              >
+                <span className="fw-medium text-primary">Zaloguj</span>
+                <Image
+                  src="../account.svg"
+                  width={30}
+                  height={30}
+                  alt="account icon"
+                />
+              </Button>
+            </Nav.Link>
+          </div>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

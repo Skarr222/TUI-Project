@@ -126,7 +126,7 @@ export const DestinationSearch = () => {
                       className="w-100 mt-2"
                       style={{ borderRadius: "30px", height: "60px" }}
                     >
-                      🔎 Szukaj wycieczki
+                      🔎 Szukaj
                     </Button>
                   </Col>
                 </Row>

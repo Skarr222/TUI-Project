@@ -24,6 +24,8 @@ export const Footer = () => {
                   maxWidth: "250px",
                   height: "auto",
                   objectFit: "contain",
+                  alignContent: "center",
+                  justifyContent: "center",
                 }}
                 className="img-fluid"
               />
