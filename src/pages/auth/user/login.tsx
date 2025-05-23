@@ -7,9 +7,9 @@ import {
   Row,
   Alert,
 } from "react-bootstrap";
-import { useAuth } from "../../../AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 
 export const Login = () => {
   const { loginCustomer, error, isLoading } = useAuth();

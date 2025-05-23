@@ -69,5 +69,19 @@ namespace ReactApp.Server.Controllers
             var token = _jwtService.GenerateToken(user);
             return Ok(new { token, user = new { user.Email, user } });
         }
+        [HttpPost("admin/login")]
+        public async Task<IActionResult> AdminLogin([FromBody] LoginDto model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return Unauthorized(new { message = "Invalid email or password" });
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+            if (!result.Succeeded)
+                return Unauthorized(new { message = "Invalid email or password" });
+
+            var token = _jwtService.GenerateToken(user);
+            return Ok(new { token, user = new { user.Email, user } });
+        }
     }
 }

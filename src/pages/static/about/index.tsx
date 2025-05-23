@@ -2,7 +2,7 @@ import { Container, Row, Col, Card, Image } from "react-bootstrap";
 
 export const AboutUs = () => {
   return (
-    <Container className="py-5">
+    <Container className="py-5 min-vh-100">
       <Row className="mb-5">
         <Col>
           <h1 className="text-center mb-4" style={{ color: "#007bff" }}>

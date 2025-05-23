@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../AuthContext";
+import { useAuth } from "../../../hooks/useAuth";
 
 function AdminLogin() {
   const { loginAdmin, error, isLoading } = useAuth();

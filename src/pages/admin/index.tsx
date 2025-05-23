@@ -1,18 +1,17 @@
 // src/pages/admin/index.tsx
 
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
+// import { useAuth } from "../../hooks/useAuth";
 
 function AdminDashboard() {
-  const { isAdminAuthenticated, adminUser, logoutAdmin } = useAuth();
+  // const { isAdminAuthenticated, adminUser, logoutAdmin } = useAuth();
 
-  if (!isAdminAuthenticated) {
-    return <Navigate to="/admin/login" />;
-  }
+  // if (!isAdminAuthenticated) {
+  //   return <Navigate to="/admin/login" />;
+  // }
   return (
     <div>
       <h2>Admin Dashboard</h2>
-      {adminUser && <p>Welcome, {adminUser.username}!</p>}
+      {/* {adminUser && <p>Welcome, {adminUser.username}!</p>} */}
 
       <div>
         <h3>Admin Actions</h3>
@@ -26,7 +25,7 @@ function AdminDashboard() {
         </ul>
       </div>
 
-      <button onClick={logoutAdmin}>Logout Admin</button>
+      {/* <button onClick={logoutAdmin}>Logout Admin</button> */}
     </div>
   );
 }
