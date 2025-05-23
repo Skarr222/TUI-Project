@@ -6,7 +6,7 @@ export interface User {
   token?: string;
 }
 
-enum Role {
+export enum Role {
   ADMIN = "admin",
   CUSTOMER = "user",
 }

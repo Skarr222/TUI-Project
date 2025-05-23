@@ -1,6 +1,31 @@
+import axios from "axios";
+import React from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import api from "../../utils/axiosConfig";
+
+interface RegisterForm {
+  email: string;
+  login: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export const Register = () => {
+  const [registerForm, setRegisterForm] = React.useState({
+    email: "",
+    login: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const register = async (form: RegisterForm) => {
+    try {
+      await api.post(`/register`, form);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       style={{
@@ -30,32 +55,18 @@ export const Register = () => {
               </h3>
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicName">
-                  <Form.Label className="text-start">Imię</Form.Label>
+                  <Form.Label className="text-start">Login</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Wpisz swoje imię"
                     className="p-2"
                     style={{ borderRadius: "6px" }}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBasicLastName">
-                  <Form.Label className="text-start">Nazwisko</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Wpisz swoje nazwisko"
-                    className="p-2"
-                    style={{ borderRadius: "6px" }}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label className="text-start">Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Wpisz swój adres email"
-                    className="p-2"
-                    style={{ borderRadius: "6px" }}
+                    onChange={(e) => {
+                      setRegisterForm({
+                        ...registerForm,
+                        login: e.target.value,
+                      });
+                    }}
                   />
                 </Form.Group>
 
@@ -66,6 +77,12 @@ export const Register = () => {
                     placeholder="Hasło"
                     className="p-2"
                     style={{ borderRadius: "6px" }}
+                    onChange={(e) => {
+                      setRegisterForm({
+                        ...registerForm,
+                        password: e.target.value,
+                      });
+                    }}
                   />
                 </Form.Group>
 
@@ -79,14 +96,38 @@ export const Register = () => {
                     placeholder="Potwierdź hasło"
                     className="p-2"
                     style={{ borderRadius: "6px" }}
+                    onChange={(e) => {
+                      setRegisterForm({
+                        ...registerForm,
+                        confirmPassword: e.target.value,
+                      });
+                    }}
                   />
                 </Form.Group>
 
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label className="text-start">Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Wpisz swój adres email"
+                    className="p-2"
+                    style={{ borderRadius: "6px" }}
+                    onChange={(e) => {
+                      setRegisterForm({
+                        ...registerForm,
+                        email: e.target.value,
+                      });
+                    }}
+                  />
+                </Form.Group>
                 <Button
                   variant="primary"
                   type="submit"
                   className="w-100 py-2"
                   style={{ borderRadius: "6px", fontWeight: "bold" }}
+                  onClick={() => {
+                    register(registerForm);
+                  }}
                 >
                   Zarejestruj
                 </Button>
