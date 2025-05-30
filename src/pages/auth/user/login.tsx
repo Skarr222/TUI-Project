@@ -1,31 +1,23 @@
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  Alert,
-} from "react-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../../../hooks/useAuth";
+// import { useAuth } from "../../../hooks/useAuth";
 
 export const Login = () => {
-  const { loginCustomer, error, isLoading } = useAuth();
+  // const { loginCustomer, error, isLoading } = useAuth();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await loginCustomer(credentials);
+    // await loginCustomer(credentials);
 
-    if (!error) {
-      navigate("/");
-    }
+    // if (!error) {
+    //   navigate("/");
+    // }
   };
 
   return (
@@ -55,11 +47,8 @@ export const Login = () => {
               </Card.Header>
 
               <Card.Body>
-                {error && (
-                  <Alert variant="danger" role="alert">
-                    {error}
-                  </Alert>
-                )}
+                {/* <Alert variant="danger" role="alert">
+                  </Alert> */}
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -120,9 +109,9 @@ export const Login = () => {
                     type="submit"
                     className="w-100 py-2"
                     style={{ borderRadius: "6px", fontWeight: "bold" }}
-                    disabled={isLoading}
+                    // disabled={isLoading}
                   >
-                    {isLoading ? "Logowanie..." : "Zaloguj"}
+                    {"Zaloguj"}
                   </Button>
                 </Form>
 

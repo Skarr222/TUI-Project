@@ -1,14 +1,12 @@
-import axios from "axios";
 import React from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import api from "../../utils/axiosConfig";
 
-interface RegisterForm {
-  email: string;
-  login: string;
-  password: string;
-  confirmPassword: string;
-}
+// interface RegisterForm {
+//   email: string;
+//   login: string;
+//   password: string;
+//   confirmPassword: string;
+// }
 
 export const Register = () => {
   const [registerForm, setRegisterForm] = React.useState({
@@ -18,9 +16,9 @@ export const Register = () => {
     confirmPassword: "",
   });
 
-  const register = async (form: RegisterForm) => {
+  const register = async () => {
     try {
-      await api.post(`/register`, form);
+      return;
     } catch (error) {
       console.error(error);
     }
@@ -126,7 +124,7 @@ export const Register = () => {
                   className="w-100 py-2"
                   style={{ borderRadius: "6px", fontWeight: "bold" }}
                   onClick={() => {
-                    register(registerForm);
+                    register();
                   }}
                 >
                   Zarejestruj

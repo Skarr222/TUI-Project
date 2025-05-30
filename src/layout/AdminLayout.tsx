@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
+import { AdminNavBar } from "../components/adminNavbar";
 
 export const AdminLayout = () => {
   return (
@@ -10,6 +11,7 @@ export const AdminLayout = () => {
         minHeight: "100vh",
       }}
     >
+      <AdminNavBar />
       <div style={{ flex: 1 }}>
         <Container fluid style={{ padding: 0 }}>
           <Outlet />

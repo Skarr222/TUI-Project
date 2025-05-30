@@ -21,6 +21,7 @@ import { Privacy } from "./pages/static/legal/privacy.tsx";
 import { DataProtection } from "./pages/static/legal/data-protection.tsx";
 import FAQ from "./pages/static/legal/faq.tsx";
 import Contact from "./pages/contact/index.tsx";
+import { OfferDetails } from "./pages/offers/offerDetails/[id].tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -35,6 +36,7 @@ if (rootElement) {
             <Route index element={<App />} />
             <Route path="/login" element={<Login />} />
             <Route path="/offers" element={<OffersList />} />
+            <Route path="/oferta/:id" element={<OfferDetails />} />
             <Route path="/register" element={<Register />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/about-us" element={<AboutUs />} />
