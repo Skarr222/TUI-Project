@@ -23,6 +23,7 @@ interface Offer {
 export const OffersList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [visibleOffersCount, setVisibleOffersCount] = useState(6); // State to manage visible offers
 
   // Example offers data
   const offers: Offer[] = [
@@ -92,6 +93,27 @@ export const OffersList = () => {
       image: "/offers/morocco.jpeg",
       category: "afryka",
     },
+    {
+      id: 7, // Added for demonstration of "show more"
+      title: "Kanadyjskie Szlaki",
+      destination: "Banff, Kanada",
+      description:
+        "Odkryj majestatyczne góry i krystalicznie czyste jeziora Kanady.",
+      price: 6800,
+      duration: "14 dni",
+      image: "/offers/canada.jpeg",
+      category: "ameryka",
+    },
+    {
+      id: 8, // Added for demonstration of "show more"
+      title: "Japońskie Ogrody",
+      destination: "Kioto, Japonia",
+      description: "Podróż do krainy kwitnącej wiśni i starożytnych tradycji.",
+      price: 6100,
+      duration: "10 dni",
+      image: "/offers/japan.jpeg",
+      category: "azja",
+    },
   ];
 
   const categories = [
@@ -110,6 +132,10 @@ export const OffersList = () => {
       selectedCategory === "all" || offer.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const handleShowMore = () => {
+    setVisibleOffersCount((prevCount) => prevCount + 6); // Increase by 6 or any desired number
+  };
 
   return (
     <Container className="py-5">
@@ -142,7 +168,7 @@ export const OffersList = () => {
       </Row>
 
       <Row className="g-4">
-        {filteredOffers.map((offer) => (
+        {filteredOffers.slice(0, visibleOffersCount).map((offer) => (
           <Col key={offer.id} md={6} lg={4}>
             <Card className="h-100 shadow-sm border-0">
               <div style={{ height: "200px", overflow: "hidden" }}>
@@ -184,6 +210,19 @@ export const OffersList = () => {
         <div className="text-center py-5">
           <h3>Nie znaleziono ofert spełniających kryteria wyszukiwania</h3>
           <p>Spróbuj zmienić kryteria wyszukiwania</p>
+        </div>
+      )}
+
+      {filteredOffers.length > visibleOffersCount && (
+        <div className="text-center mt-4">
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={handleShowMore}
+            style={{ padding: "10px 40px", borderRadius: "30px" }}
+          >
+            Pokaż więcej ofert
+          </Button>
         </div>
       )}
     </Container>

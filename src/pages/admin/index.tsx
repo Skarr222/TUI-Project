@@ -68,7 +68,6 @@ function AdminDashboard() {
           </Card>
         </Col>
 
-        {/* Karta do dodawania nowej oferty */}
         <Col md={6} lg={4}>
           <Card className="shadow-sm h-100">
             <Card.Body className="d-flex flex-column">
@@ -80,7 +79,7 @@ function AdminDashboard() {
                 szczegóły.
               </Card.Text>
               <Link
-                to="/admin/addOffer"
+                to="/admin/offers/add"
                 className="btn btn-success mt-auto w-100"
               >
                 Dodaj Ofertę
@@ -104,7 +103,6 @@ function AdminDashboard() {
                 <ListGroup.Item action as={Link} to="/admin/settings">
                   <i className="bi bi-gear-fill me-2"></i>Ustawienia Panelu
                 </ListGroup.Item>
-                {/* Dodaj więcej szybkich akcji w razie potrzeby */}
                 <ListGroup.Item action as={Link} to="/admin/customers">
                   <i className="bi bi-person-fill me-2"></i>Zarządzaj Klientami
                 </ListGroup.Item>
@@ -121,7 +119,6 @@ function AdminDashboard() {
           </Card>
         </Col>
       </Row>
-      ---
       {/* Sekcja Statystyki i Wykresy */}
       <h3 className="mb-4 text-center">Statystyki i Przegląd Działalności</h3>
       <Row className="g-4 mb-5">
@@ -213,7 +210,6 @@ function AdminDashboard() {
           </Card>
         </Col>
       </Row>
-      ---
       {/* Sekcja Ostatnie Aktywności */}
       <h3 className="mb-4 text-center">Ostatnie Aktywności</h3>
       <Row className="mb-4">

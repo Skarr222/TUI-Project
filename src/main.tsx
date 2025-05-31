@@ -5,10 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 import { Layout } from "./layout/Layout.tsx";
 import { WorkerList } from "./pages/admin/workers/workerList.tsx";
-import { Worker } from "./pages/admin/workers/worker.tsx";
 import { AboutUs } from "./pages/static/about/index.tsx";
 import { OffersList } from "./pages/offers/offersList.tsx";
-import { AddOffer } from "./pages/offers/addOffer.tsx";
 // import { AuthProvider } from "./AuthContext.tsx";
 import AdminDashboard from "./pages/admin/index";
 import PrivateRoute from "./PrivateRoute.tsx";
@@ -22,6 +20,10 @@ import { DataProtection } from "./pages/static/legal/data-protection.tsx";
 import FAQ from "./pages/static/legal/faq.tsx";
 import Contact from "./pages/contact/index.tsx";
 import { OfferDetails } from "./pages/offers/offerDetails/[id].tsx";
+import { WorkerDetails } from "./pages/admin/workers/workerDetails/[id].tsx";
+import { EditOffer } from "./pages/admin/offers/edit/[id].tsx";
+import { AdminOffersList } from "./pages/admin/offers/offersList.tsx";
+import { AddOffer } from "./pages/admin/offers/addOffer.tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -65,9 +67,11 @@ if (rootElement) {
             }
           >
             <Route path="index" element={<AdminDashboard />} />
-            <Route path="addOffer" element={<AddOffer />} />
+            <Route path="offers" element={<AdminOffersList />} />
+            <Route path="edit/:id" element={<EditOffer />} />
+            <Route path="offers/add" element={<AddOffer />} />
             <Route path="workers" element={<WorkerList />} />
-            <Route path="worker" element={<Worker />} />
+            <Route path="worker/:id" element={<WorkerDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>

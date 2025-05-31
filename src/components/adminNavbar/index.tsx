@@ -1,5 +1,5 @@
 import { Button, Container, Image, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom"; // Use Link for internal navigation
+import { Link } from "react-router-dom";
 
 export const AdminNavBar = () => {
   return (
@@ -42,21 +42,21 @@ export const AdminNavBar = () => {
               to="/admin/index"
               className="text-white fw-semibold fs-5"
             >
-              📊 Dashboard
+              Dashboard
             </Nav.Link>
             <Nav.Link
               as={Link}
               to="/admin/offers"
               className="text-white fw-semibold fs-5"
             >
-              ➕ Dodaj Ofertę
+              Oferty
             </Nav.Link>
             <Nav.Link
               as={Link}
               to="/admin/workers"
               className="text-white fw-semibold fs-5"
             >
-              👷 Zarządzaj Pracownikami
+              Zarządzaj Pracownikami
             </Nav.Link>
           </Nav>
 
