@@ -8,7 +8,7 @@ import {
   Button,
   Alert,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom"; // useParams for getting ID from URL
+import { Link, useParams } from "react-router-dom";
 import { FaSave, FaArrowLeft, FaUserEdit } from "react-icons/fa";
 
 interface Worker {
@@ -19,9 +19,68 @@ interface Worker {
   role: "admin" | "employee";
   status: "active" | "inactive";
 }
+const workers = [
+  {
+    id: 1,
+    firstName: "Anna",
+    lastName: "Kowalska",
+    position: "Recepcjonistka",
+    email: "anna.kowalska@example.com",
+    phone: "123-456-789",
+    status: "Aktywny",
+    startDate: "2020-03-15",
+    address: "ul. Kwiatowa 5, 00-001 Warszawa",
+    role: "employee",
+    notes:
+      "Anna jest bardzo sumienną i pomocną recepcjonistką. Doskonale radzi sobie z obsługą klienta i koordynacją rezerwacji. Zawsze uśmiechnięta i profesjonalna.",
+    skills: [
+      "Obsługa klienta",
+      "Organizacja biura",
+      "Znajomość języków obcych (angielski, niemiecki)",
+    ],
+    profileImage: "https://placehold.co/150x150/E0E0E0/333333?text=Anna+K",
+  },
+  {
+    id: 2,
+    firstName: "Piotr",
+    lastName: "Nowak",
+    position: "Doradca Klienta",
+    email: "piotr.nowak@example.com",
+    phone: "987-654-321",
+    status: "Aktywny",
+    startDate: "2019-07-01",
+    address: "ul. Leśna 10, 01-123 Kraków",
+    role: "employee",
+    notes:
+      "Piotr to doświadczony doradca z doskonałymi umiejętnościami sprzedażowymi i negocjacyjnymi. Zawsze stawia na pierwszym miejscu zadowolenie klienta.",
+    skills: ["Sprzedaż", "Negocjacje", "Budowanie relacji", "Analiza rynku"],
+    profileImage: "https://placehold.co/150x150/D0D0D0/222222?text=Piotr+N",
+  },
+  {
+    id: 3,
+    firstName: "Marta",
+    lastName: "Wiśniewska",
+    position: "Kierownik Biura",
+    email: "marta.wisniewska@example.com",
+    phone: "555-111-222",
+    status: "Urlop",
+    startDate: "2018-01-10",
+    address: "al. Jerozolimskie 100, 00-901 Warszawa",
+    role: "employee",
+    notes:
+      "Marta efektywnie zarządza zespołem i operacjami biurowymi. Jest zorganizowana i potrafi rozwiązywać problemy pod presją czasu.",
+    skills: [
+      "Zarządzanie zespołem",
+      "Planowanie",
+      "Rozwiązywanie problemów",
+      "Komunikacja",
+    ],
+    profileImage: "https://placehold.co/150x150/C0C0C0/111111?text=Marta+W",
+  },
+];
 
 export const EditWorker = () => {
-  const { id } = useParams<{ id: string }>(); // Get worker ID from URL
+  const { id } = useParams<{ id: string }>();
   const [formData, setFormData] = useState<Omit<Worker, "id">>({
     firstName: "",
     lastName: "",
@@ -32,26 +91,20 @@ export const EditWorker = () => {
 
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // For real data fetching
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setLoading(true);
-    const dummyWorker: Worker = {
-      id: Number(id),
-      firstName: "Jan",
-      lastName: "Kowalski",
-      email: "jan.kowalski@example.com",
-      role: "employee",
-      status: "active",
-    };
+    const workerId = parseInt(id || "0", 10);
+    const dummyWorker = workers.find((worker) => worker.id === workerId);
 
-    if (dummyWorker.id) {
+    if (dummyWorker && dummyWorker.id) {
       setFormData({
         firstName: dummyWorker.firstName,
         lastName: dummyWorker.lastName,
         email: dummyWorker.email,
-        role: dummyWorker.role,
-        status: dummyWorker.status,
+        role: dummyWorker.role as "employee",
+        status: dummyWorker.status as "active",
       });
       setLoading(false);
     } else {
