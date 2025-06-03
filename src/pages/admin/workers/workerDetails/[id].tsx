@@ -136,7 +136,11 @@ export const WorkerDetails = () => {
                     Data zatrudnienia: {worker.startDate}
                   </p>
                   <div className="mt-4">
-                    <Button variant="primary" className="me-2">
+                    <Button
+                      variant="primary"
+                      href={`/admin/worker/edit/${worker.id}`}
+                      className="me-2"
+                    >
                       <FaEdit className="me-2" /> Edytuj pracownika
                     </Button>
                     <Button href="/admin/workers" variant="outline-secondary">

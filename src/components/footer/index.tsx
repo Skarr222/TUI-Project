@@ -58,9 +58,6 @@ export const Footer = () => {
           <Col xs={12} md={3} className="mb-3 text-center text-md-start">
             <h5 className="text-white">Obsługa klienta</h5>
             <Nav className="flex-column">
-              <Nav.Link href="/wysylka" className="text-white">
-                Wysyłka
-              </Nav.Link>
               <Nav.Link href="/kontakt" className="text-white">
                 Kontakt
               </Nav.Link>

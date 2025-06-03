@@ -18,12 +18,14 @@ import { Terms } from "./pages/static/legal/terms.tsx";
 import { Privacy } from "./pages/static/legal/privacy.tsx";
 import { DataProtection } from "./pages/static/legal/data-protection.tsx";
 import FAQ from "./pages/static/legal/faq.tsx";
-import Contact from "./pages/contact/index.tsx";
 import { OfferDetails } from "./pages/offers/offerDetails/[id].tsx";
 import { WorkerDetails } from "./pages/admin/workers/workerDetails/[id].tsx";
 import { EditOffer } from "./pages/admin/offers/edit/[id].tsx";
 import { AdminOffersList } from "./pages/admin/offers/offersList.tsx";
 import { AddOffer } from "./pages/admin/offers/addOffer.tsx";
+import { AddWorker } from "./pages/admin/workers/addWorker.tsx";
+import { EditWorker } from "./pages/admin/workers/edit/[id].tsx";
+import Contact from "./pages/contact/index.tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -38,7 +40,7 @@ if (rootElement) {
             <Route index element={<App />} />
             <Route path="/login" element={<Login />} />
             <Route path="/offers" element={<OffersList />} />
-            <Route path="/oferta/:id" element={<OfferDetails />} />
+            <Route path="/offer/:id" element={<OfferDetails />} />
             <Route path="/register" element={<Register />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/about-us" element={<AboutUs />} />
@@ -68,9 +70,11 @@ if (rootElement) {
           >
             <Route path="index" element={<AdminDashboard />} />
             <Route path="offers" element={<AdminOffersList />} />
-            <Route path="edit/:id" element={<EditOffer />} />
-            <Route path="offers/add" element={<AddOffer />} />
+            <Route path="offer/edit/:id" element={<EditOffer />} />
+            <Route path="offer/add" element={<AddOffer />} />
             <Route path="workers" element={<WorkerList />} />
+            <Route path="worker/add" element={<AddWorker />} />
+            <Route path="worker/edit/:id" element={<EditWorker />} />
             <Route path="worker/:id" element={<WorkerDetails />} />
           </Route>
         </Routes>

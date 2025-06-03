@@ -107,7 +107,7 @@ export const AdminOffersList = () => {
           <h2 className="mb-0">Zarządzanie Ofertami</h2>
         </Col>
         <Col xs="auto">
-          <Link to="/admin/offers/add">
+          <Link to="/admin/offer/add">
             <Button variant="primary" className="d-flex align-items-center">
               <FaPlus className="me-2" /> Dodaj nową ofertę
             </Button>
@@ -146,7 +146,7 @@ export const AdminOffersList = () => {
                   <Badge bg="secondary">{offer.category.toUpperCase()}</Badge>
                 </td>
                 <td>
-                  <Link to={`/admin/offers/edit/${offer.id}`}>
+                  <Link to={`/admin/offer/edit/${offer.id}`}>
                     <Button variant="outline-info" size="sm" className="me-2">
                       <FaEdit /> Edytuj
                     </Button>

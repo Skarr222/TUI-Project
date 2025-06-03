@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMapMarkerAlt,
+  faPhone,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +25,6 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you can integrate with an API or backend
     console.log("Form submitted:", formData);
     setSubmitted(true);
   };
@@ -36,7 +41,9 @@ const Contact = () => {
     >
       <Container>
         <Row className="justify-content-center">
-          <Col md={8} sm={12}>
+          <Col md={10} sm={12}>
+            {" "}
+            {/* Increased column size to accommodate new content */}
             <Card
               style={{
                 padding: "30px",
@@ -52,79 +59,123 @@ const Contact = () => {
                 Skontaktuj się z nami
               </h3>
 
-              {submitted ? (
-                <div className="alert alert-success text-center">
-                  Dziękujemy za wiadomość! Skontaktujemy się z Tobą wkrótce.
-                </div>
-              ) : (
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3" controlId="formName">
-                    <Form.Label>Imię i nazwisko</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="name"
-                      placeholder="Wpisz swoje imię i nazwisko"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="p-2"
-                      style={{ borderRadius: "6px" }}
-                    />
-                  </Form.Group>
+              <Row>
+                <Col md={6}>
+                  {/* Contact Information */}
+                  <h4 className="mb-3" style={{ color: "#007bff" }}>
+                    Nasze dane kontaktowe
+                  </h4>
+                  <p>
+                    <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" />
+                    123/456 Hebanowa, 01-111 Warszawa
+                  </p>
+                  <p>
+                    <FontAwesomeIcon icon={faPhone} className="me-2" />
+                    +48 123 456 789
+                  </p>
+                  <p>
+                    <FontAwesomeIcon icon={faEnvelope} className="me-2" />
+                    kontakt@twojafirma.pl
+                  </p>
 
-                  <Form.Group className="mb-3" controlId="formEmail">
-                    <Form.Label>Adres e-mail</Form.Label>
-                    <Form.Control
-                      type="email"
-                      name="email"
-                      placeholder="Wpisz swój e-mail"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="p-2"
-                      style={{ borderRadius: "6px" }}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formSubject">
-                    <Form.Label>Temat</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="subject"
-                      placeholder="Temat wiadomości"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="p-2"
-                      style={{ borderRadius: "6px" }}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formMessage">
-                    <Form.Label>Wiadomość</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      name="message"
-                      placeholder="Napisz swoją wiadomość..."
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={5}
-                      required
-                      className="p-2"
-                      style={{ borderRadius: "6px" }}
-                    />
-                  </Form.Group>
-
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    className="w-100 py-2"
-                    style={{ borderRadius: "6px", fontWeight: "bold" }}
+                  {/* Embedded Map */}
+                  <div
+                    className="map-container mb-4"
+                    style={{
+                      height: "300px",
+                      borderRadius: "8px",
+                      overflow: "hidden",
+                    }}
                   >
-                    Wyślij wiadomość
-                  </Button>
-                </Form>
-              )}
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.6067756285223!2d22.280313415904576!3d52.16616047972081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471f30d0a51c911b%3A0x7d2870e28f3237e1!2sSiedlce!5e0!3m2!1sen!2spl!4v1678900000000!5m2!1sen!2spl"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Google Maps Location"
+                    ></iframe>
+                  </div>
+                </Col>
+
+                <Col md={6}>
+                  {/* Contact Form */}
+                  {submitted ? (
+                    <div className="alert alert-success text-center">
+                      Dziękujemy za wiadomość! Skontaktujemy się z Tobą wkrótce.
+                    </div>
+                  ) : (
+                    <Form onSubmit={handleSubmit}>
+                      <Form.Group className="mb-3" controlId="formName">
+                        <Form.Label>Imię i nazwisko</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="name"
+                          placeholder="Wpisz swoje imię i nazwisko"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="p-2"
+                          style={{ borderRadius: "6px" }}
+                        />
+                      </Form.Group>
+
+                      <Form.Group className="mb-3" controlId="formEmail">
+                        <Form.Label>Adres e-mail</Form.Label>
+                        <Form.Control
+                          type="email"
+                          name="email"
+                          placeholder="Wpisz swój e-mail"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="p-2"
+                          style={{ borderRadius: "6px" }}
+                        />
+                      </Form.Group>
+
+                      <Form.Group className="mb-3" controlId="formSubject">
+                        <Form.Label>Temat</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="subject"
+                          placeholder="Temat wiadomości"
+                          value={formData.subject}
+                          onChange={handleChange}
+                          required
+                          className="p-2"
+                          style={{ borderRadius: "6px" }}
+                        />
+                      </Form.Group>
+
+                      <Form.Group className="mb-3" controlId="formMessage">
+                        <Form.Label>Wiadomość</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          name="message"
+                          placeholder="Napisz swoją wiadomość..."
+                          value={formData.message}
+                          onChange={handleChange}
+                          rows={5}
+                          required
+                          className="p-2"
+                          style={{ borderRadius: "6px" }}
+                        />
+                      </Form.Group>
+
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="w-100 py-2"
+                        style={{ borderRadius: "6px", fontWeight: "bold" }}
+                      >
+                        Wyślij wiadomość
+                      </Button>
+                    </Form>
+                  )}
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>
@@ -132,5 +183,4 @@ const Contact = () => {
     </div>
   );
 };
-
 export default Contact;

@@ -71,7 +71,11 @@ export const WorkerList = () => {
           <h2 className="mb-0">Lista Pracowników</h2>
         </Col>
         <Col xs="auto">
-          <Button variant="primary" className="d-flex align-items-center">
+          <Button
+            variant="primary"
+            href="/admin/worker/add"
+            className="d-flex align-items-center"
+          >
             <FaPlus className="me-2" /> Dodaj nowego pracownika
           </Button>
         </Col>

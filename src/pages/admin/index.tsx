@@ -1,20 +1,15 @@
 import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PlaceholderChart = ({ title }: any) => (
-  <div
-    className="text-center p-3 border rounded bg-light"
-    style={{
-      minHeight: "200px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <p className="text-muted mb-0">Miejsce na wykres: {title}</p>
-  </div>
-);
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 function AdminDashboard() {
   // const { isAdminAuthenticated, adminUser, logoutAdmin } = useAuth();
@@ -29,11 +24,33 @@ function AdminDashboard() {
     drafts: 27,
   };
 
+  // Data for "Status Ofert" chart
+  const offersChartData = [
+    { name: "Wszystkie", value: offersData.total },
+    { name: "Aktywne", value: offersData.active },
+    { name: "Szkice", value: offersData.drafts },
+  ];
+
   const salesData = {
     today: "1 250 PLN",
     week: "8 750 PLN",
     month: "35 000 PLN",
   };
+
+  const salesChartData = [
+    {
+      name: "Dzisiaj",
+      value: parseFloat(salesData.today.replace(" ", "").replace(" PLN", "")),
+    },
+    {
+      name: "Ten tydzień",
+      value: parseFloat(salesData.week.replace(" ", "").replace(" PLN", "")),
+    },
+    {
+      name: "Ten miesiąc",
+      value: parseFloat(salesData.month.replace(" ", "").replace(" PLN", "")),
+    },
+  ];
 
   const popularDestinations = [
     { name: "Hiszpania", count: 45 },
@@ -46,7 +63,6 @@ function AdminDashboard() {
   return (
     <Container className="my-4">
       <h2 className="mb-4 text-center">Panel Administracyjny</h2>
-      {/* Sekcja Główne Akcje */}
       <Row className="g-4 mb-5">
         {/* Karta do zarządzania pracownikami */}
         <Col md={6} lg={4}>
@@ -107,14 +123,6 @@ function AdminDashboard() {
                   <i className="bi bi-person-fill me-2"></i>Zarządzaj Klientami
                 </ListGroup.Item>
               </ListGroup>
-              {/* Przycisk wylogowania */}
-              {/* <Button
-                onClick={logoutAdmin}
-                variant="outline-danger"
-                className="mt-3 w-100"
-              >
-                <i className="bi bi-box-arrow-right me-2"></i>Wyloguj
-              </Button> */}
             </Card.Body>
           </Card>
         </Col>
@@ -125,11 +133,15 @@ function AdminDashboard() {
         {/* Karta z przeglądem ofert */}
         <Col md={6} lg={4}>
           <Card className="shadow-sm h-100">
-            <Card.Body>
+            <Card.Body className="d-flex flex-column">
+              {" "}
+              {/* Added flex-column */}
               <Card.Title className="text-center mb-3">
                 <i className="bi bi-journals me-2"></i>Status Ofert
               </Card.Title>
-              <ListGroup variant="flush">
+              <ListGroup variant="flush" className="flex-grow-1">
+                {" "}
+                {/* Added flex-grow-1 */}
                 <ListGroup.Item>
                   <strong className="me-2">Wszystkie oferty:</strong>
                   <span className="float-end">{offersData.total}</span>
@@ -147,8 +159,19 @@ function AdminDashboard() {
                   </span>
                 </ListGroup.Item>
               </ListGroup>
-              <div className="mt-3">
-                <PlaceholderChart title="Liczba Ofert" />
+              <div style={{ height: "200px" }}>
+                {" "}
+                {/* Removed mt-3 */}
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={offersChartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis domain={[0, "auto"]} />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="value" fill="#8884d8" name="Liczba Ofert" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </Card.Body>
           </Card>
@@ -157,11 +180,15 @@ function AdminDashboard() {
         {/* Karta z przeglądem sprzedaży */}
         <Col md={6} lg={4}>
           <Card className="shadow-sm h-100">
-            <Card.Body>
+            <Card.Body className="d-flex flex-column">
+              {" "}
+              {/* Added flex-column */}
               <Card.Title className="text-center mb-3">
                 <i className="bi bi-cash-stack me-2"></i>Przychody
               </Card.Title>
-              <ListGroup variant="flush">
+              <ListGroup variant="flush" className="flex-grow-1">
+                {" "}
+                {/* Added flex-grow-1 */}
                 <ListGroup.Item>
                   <strong className="me-2">Dzisiaj:</strong>
                   <span className="float-end">{salesData.today}</span>
@@ -175,8 +202,19 @@ function AdminDashboard() {
                   <span className="float-end">{salesData.month}</span>
                 </ListGroup.Item>
               </ListGroup>
-              <div className="mt-3">
-                <PlaceholderChart title="Przychody z Okresu" />
+              <div style={{ height: "200px" }}>
+                {" "}
+                {/* Removed mt-3 */}
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={salesChartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis domain={[0, "auto"]} />
+                    <Tooltip formatter={(value) => `${value} PLN`} />
+                    <Legend />
+                    <Bar dataKey="value" fill="#82ca9d" name="Przychody" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </Card.Body>
           </Card>
@@ -185,12 +223,16 @@ function AdminDashboard() {
         {/* Karta z popularnymi kierunkami */}
         <Col md={6} lg={4}>
           <Card className="shadow-sm h-100">
-            <Card.Body>
+            <Card.Body className="d-flex flex-column">
+              {" "}
+              {/* Added flex-column */}
               <Card.Title className="text-center mb-3">
                 <i className="bi bi-geo-alt-fill me-2"></i>Najpopularniejsze
                 Kierunki
               </Card.Title>
-              <ListGroup variant="flush">
+              <ListGroup variant="flush" className="flex-grow-1">
+                {" "}
+                {/* Added flex-grow-1 */}
                 {popularDestinations.map((dest, index) => (
                   <ListGroup.Item
                     key={index}
@@ -203,8 +245,23 @@ function AdminDashboard() {
                   </ListGroup.Item>
                 ))}
               </ListGroup>
-              <div className="mt-3">
-                <PlaceholderChart title="Popularność Kierunków" />
+              <div style={{ height: "200px" }}>
+                {" "}
+                {/* Removed mt-3 */}
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={popularDestinations}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis domain={[0, "auto"]} />
+                    <Tooltip />
+                    <Legend />
+                    <Bar
+                      dataKey="count"
+                      fill="#ffc658"
+                      name="Liczba Rezerwacji"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </Card.Body>
           </Card>
