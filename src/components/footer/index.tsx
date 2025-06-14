@@ -1,4 +1,5 @@
 import { Nav, Navbar, Image, Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -15,7 +16,7 @@ export const Footer = () => {
         <Row className="w-100 justify-content-center">
           {/* Logo */}
           <Col xs={12} md={3} className="mb-3 mt-3 text-center text-md-center">
-            <Navbar.Brand href="/">
+            <Navbar.Brand as={Link} to="/">
               <Image
                 alt="logo-lorem-ipsum"
                 src={"../logo.svg"}
@@ -36,19 +37,27 @@ export const Footer = () => {
           <Col xs={12} md={3} className="mb-3 text-center text-md-start">
             <h5 className="text-white">Ważne informacje</h5>
             <Nav className="flex-column">
-              <Nav.Link href="/about-us" className="text-white">
+              <Nav.Link as={Link} to="/about-us" className="text-white">
                 O nas
               </Nav.Link>
-              <Nav.Link href="/faq" className="text-white">
+              <Nav.Link as={Link} to="/faq" className="text-white">
                 FAQ
               </Nav.Link>
-              <Nav.Link href="/regulamin" className="text-white">
+              <Nav.Link as={Link} to="/regulamin" className="text-white">
                 Regulamin
               </Nav.Link>
-              <Nav.Link href="/polityka-prywatnosci" className="text-white">
+              <Nav.Link
+                as={Link}
+                to="/polityka-prywatnosci"
+                className="text-white"
+              >
                 Polityka prywatności
               </Nav.Link>
-              <Nav.Link href="/ochrona-danych-osobowych" className="text-white">
+              <Nav.Link
+                as={Link}
+                to="/ochrona-danych-osobowych"
+                className="text-white"
+              >
                 Ochrona danych osobowych
               </Nav.Link>
             </Nav>
@@ -58,7 +67,7 @@ export const Footer = () => {
           <Col xs={12} md={3} className="mb-3 text-center text-md-start">
             <h5 className="text-white">Obsługa klienta</h5>
             <Nav className="flex-column">
-              <Nav.Link href="/kontakt" className="text-white">
+              <Nav.Link as={Link} to="/kontakt" className="text-white">
                 Kontakt
               </Nav.Link>
             </Nav>

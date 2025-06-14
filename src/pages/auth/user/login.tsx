@@ -1,23 +1,45 @@
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-// import { useAuth } from "../../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { login } from "../../../store/authSlice";
 
 export const Login = () => {
-  // const { loginCustomer, error, isLoading } = useAuth();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
-  // const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // await loginCustomer(credentials);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    // if (!error) {
-    //   navigate("/");
-    // }
+  const handleLogin = (role: "admin" | "customer") => {
+    try {
+      dispatch(
+        login({
+          email: credentials.email,
+          name: credentials.email.split("@")[0],
+          password: credentials.password,
+          role,
+        })
+      );
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError(
+        "Nie udało się zalogować. Sprawdź swoje dane i spróbuj ponownie."
+      );
+      alert("Nie udało się zalogować. Sprawdź swoje dane i spróbuj ponownie.");
+    }
   };
 
   return (
@@ -45,12 +67,16 @@ export const Login = () => {
                   Zaloguj
                 </h3>
               </Card.Header>
-
+              <Alert
+                hidden={!error}
+                variant="danger"
+                role="alert"
+                style={{ textAlign: "center" }}
+              >
+                {error}
+              </Alert>
               <Card.Body>
-                {/* <Alert variant="danger" role="alert">
-                  </Alert> */}
-
-                <Form onSubmit={handleSubmit}>
+                <Form>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label style={{ width: "100%", textAlign: "left" }}>
                       Email
@@ -96,12 +122,12 @@ export const Login = () => {
                     controlId="formBasicCheckbox"
                   >
                     <Form.Check type="checkbox" label="Zapamiętaj" />
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       style={{ textDecoration: "none", color: "#007bff" }}
                     >
                       Zapomniałeś hasła?
-                    </a>
+                    </Link>
                   </Form.Group>
 
                   <Button
@@ -110,6 +136,7 @@ export const Login = () => {
                     className="w-100 py-2"
                     style={{ borderRadius: "6px", fontWeight: "bold" }}
                     // disabled={isLoading}
+                    onClick={() => handleLogin("customer")}
                   >
                     {"Zaloguj"}
                   </Button>

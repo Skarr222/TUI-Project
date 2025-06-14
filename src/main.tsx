@@ -26,6 +26,10 @@ import { AddOffer } from "./pages/admin/offers/addOffer.tsx";
 import { AddWorker } from "./pages/admin/workers/addWorker.tsx";
 import { EditWorker } from "./pages/admin/workers/edit/[id].tsx";
 import Contact from "./pages/contact/index.tsx";
+import { Provider } from "react-redux";
+import { persistor, store } from "./store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { Profile } from "./pages/user/Profile.tsx";
 
 const rootElement = document.getElementById("root");
 
@@ -33,52 +37,57 @@ if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       {/* <AuthProvider> */}
-      <BrowserRouter>
-        <Routes>
-          {/* <Route path="/admin/login" element={<AdminLogin />} /> */}
-          <Route path="/" element={<Layout />}>
-            <Route index element={<App />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/offers" element={<OffersList />} />
-            <Route path="/offer/:id" element={<OfferDetails />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/kontakt" element={<Contact />} />
-            <Route path="/regulamin" element={<Terms />} />
-            <Route path="/polityka-prywatnosci" element={<Privacy />} />
-            <Route
-              path="/ochrona-danych-osobowych"
-              element={<DataProtection />}
-            />
-            <Route
-              path="/offers"
-              element={
-                <PrivateRoute>
-                  <OffersList />
-                </PrivateRoute>
-              }
-            />
-          </Route>
-          <Route
-            path="/admin"
-            element={
-              <AdminLayout />
-              // <PrivateRoute requireAdmin>
-              /* </PrivateRoute> */
-            }
-          >
-            <Route path="index" element={<AdminDashboard />} />
-            <Route path="offers" element={<AdminOffersList />} />
-            <Route path="offer/edit/:id" element={<EditOffer />} />
-            <Route path="offer/add" element={<AddOffer />} />
-            <Route path="workers" element={<WorkerList />} />
-            <Route path="worker/add" element={<AddWorker />} />
-            <Route path="worker/edit/:id" element={<EditWorker />} />
-            <Route path="worker/:id" element={<WorkerDetails />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <Routes>
+              {/* <Route path="/admin/login" element={<AdminLogin />} /> */}
+              <Route path="/" element={<Layout />}>
+                <Route index element={<App />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/offers" element={<OffersList />} />
+                <Route path="/offer/:id" element={<OfferDetails />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/kontakt" element={<Contact />} />
+                <Route path="/regulamin" element={<Terms />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/polityka-prywatnosci" element={<Privacy />} />
+                <Route
+                  path="/ochrona-danych-osobowych"
+                  element={<DataProtection />}
+                />
+                <Route
+                  path="/offers"
+                  element={
+                    <PrivateRoute>
+                      <OffersList />
+                    </PrivateRoute>
+                  }
+                />
+              </Route>
+              <Route
+                path="/admin"
+                element={
+                  <AdminLayout />
+                  // <PrivateRoute requireAdmin>
+                  /* </PrivateRoute> */
+                }
+              >
+                <Route path="index" element={<AdminDashboard />} />
+                <Route path="offers" element={<AdminOffersList />} />
+                <Route path="offer/edit/:id" element={<EditOffer />} />
+                <Route path="offer/add" element={<AddOffer />} />
+                <Route path="workers" element={<WorkerList />} />
+                <Route path="worker/add" element={<AddWorker />} />
+                <Route path="worker/edit/:id" element={<EditWorker />} />
+                <Route path="worker/:id" element={<WorkerDetails />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
       {/* </AuthProvider> */}
     </React.StrictMode>
   );

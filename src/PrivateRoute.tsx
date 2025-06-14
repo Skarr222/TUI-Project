@@ -1,32 +1,26 @@
-import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
+import { Navigate } from "react-router-dom";
+import { JSX } from "react";
 
-interface PrivateRouteProps {
-  children?: React.ReactNode;
-  requireAdmin?: boolean;
-}
-
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
+const PrivateRoute = ({
   children,
-  requireAdmin = false,
+  role,
+}: {
+  children: JSX.Element;
+  role?: "admin" | "customer";
 }) => {
-  const { isAdminAuthenticated, isCustomerAuthenticated } = useAuth();
-  const location = useLocation();
+  const auth = useSelector((state: RootState) => state.auth);
 
-  if (requireAdmin) {
-    return isAdminAuthenticated ? (
-      children
-    ) : (
-      <Navigate to="/admin/login" state={{ from: location }} replace />
-    );
+  if (!auth.isAuthenticated) {
+    return <Navigate to="/" />;
   }
 
-  return isCustomerAuthenticated ? (
-    children
-  ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
-  );
+  if (role && auth.user?.role !== role) {
+    return <Navigate to="/" />;
+  }
+
+  return children;
 };
 
 export default PrivateRoute;

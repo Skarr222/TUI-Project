@@ -1,13 +1,6 @@
 import React from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 
-// interface RegisterForm {
-//   email: string;
-//   login: string;
-//   password: string;
-//   confirmPassword: string;
-// }
-
 export const Register = () => {
   const [registerForm, setRegisterForm] = React.useState({
     email: "",

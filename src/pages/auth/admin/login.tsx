@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 
-function AdminLogin() {
+export const AdminLogin = () => {
   const { loginAdmin, error, isLoading } = useAuth();
   const [credentials, setCredentials] = useState({
     email: "",
@@ -91,12 +91,12 @@ function AdminLogin() {
                   controlId="formBasicCheckbox"
                 >
                   <Form.Check type="checkbox" label="Remember me" />
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     style={{ textDecoration: "none", color: "#007bff" }}
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </Form.Group>
                 <Button
                   variant="primary"
@@ -114,6 +114,4 @@ function AdminLogin() {
       </Container>
     </div>
   );
-}
-
-export default AdminLogin;
+};

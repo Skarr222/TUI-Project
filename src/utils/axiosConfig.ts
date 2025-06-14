@@ -56,7 +56,7 @@
 //         localStorage.removeItem("customerToken");
 //         localStorage.removeItem("adminToken");
 
-//         window.location.href = "/login"; // Or a more sophisticated redirect
+//         window.location.as={Link} = "/login"; // Or a more sophisticated redirect
 //       } else if (error.response.status === 403) {
 //         console.log(
 //           "Forbidden: You do not have permission to access this resource."
