@@ -24,6 +24,12 @@ export const Login = () => {
 
   const handleLogin = (role: "admin" | "customer") => {
     try {
+      if (!credentials.email || !credentials.password) {
+        setError("Proszę wypełnić wszystkie pola.");
+        alert("Proszę wypełnić wszystkie pola.");
+        return;
+      }
+      setError(null);
       dispatch(
         login({
           email: credentials.email,

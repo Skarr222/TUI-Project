@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Container,
   Card,
@@ -10,62 +10,63 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaSave, FaArrowLeft, FaUserPlus } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
-interface Worker {
-  id: number;
+type WorkerFormData = {
   firstName: string;
   lastName: string;
   email: string;
   role: "admin" | "employee";
-  password?: string;
-}
+  password: string;
+};
+
+const workerSchema = yup.object().shape({
+  firstName: yup.string().required("Imię jest wymagane"),
+  lastName: yup.string().required("Nazwisko jest wymagane"),
+  email: yup
+    .string()
+    .required("E-mail jest wymagany")
+    .email("Wprowadź prawidłowy adres e-mail"),
+  role: yup
+    .string()
+    .oneOf(["admin", "employee"])
+    .required("Rola jest wymagana"),
+  password: yup
+    .string()
+    .required("Hasło jest wymagane")
+    .min(6, "Hasło musi mieć co najmniej 6 znaków"),
+});
 
 export const AddWorker = () => {
-  const [formData, setFormData] = useState<Omit<Worker, "id">>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    role: "employee",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<WorkerFormData>({
+    resolver: yupResolver(workerSchema),
+    mode: "onTouched",
   });
 
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
+  );
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = (data: WorkerFormData) => {
     setSuccessMessage(null);
     setErrorMessage(null);
 
-    const { firstName, lastName, email, role, password } = formData;
-
-    if (!firstName || !lastName || !email || !role || !password) {
-      setErrorMessage("Wypełnij wszystkie wymagane pola.");
-      return;
+    try {
+      console.log("Dodawanie pracownika:", data);
+      setSuccessMessage("Pracownik został pomyślnie dodany!");
+      reset();
+    } catch (error) {
+      console.error("Błąd podczas dodawania pracownika:", error);
+      setErrorMessage("Wystąpił błąd podczas dodawania pracownika.");
     }
-
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setErrorMessage("Wprowadź prawidłowy adres e-mail.");
-      return;
-    }
-
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      role: "employee",
-      password: "",
-    });
   };
 
   return (
@@ -83,9 +84,8 @@ export const AddWorker = () => {
               )}
               {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row className="g-4">
-                  {/* Lewa kolumna */}
                   <Col md={6}>
                     <h5 className="mb-3 text-secondary">Dane osobowe</h5>
 
@@ -93,37 +93,42 @@ export const AddWorker = () => {
                       <Form.Label>Imię</Form.Label>
                       <Form.Control
                         type="text"
-                        name="firstName"
-                        value={formData.firstName}
+                        {...register("firstName")}
                         placeholder="Wprowadź imię"
-                        required
+                        isInvalid={!!errors.firstName}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.firstName?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                       <Form.Label>Nazwisko</Form.Label>
                       <Form.Control
                         type="text"
-                        name="lastName"
-                        value={formData.lastName}
+                        {...register("lastName")}
                         placeholder="Wprowadź nazwisko"
-                        required
+                        isInvalid={!!errors.lastName}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.lastName?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                       <Form.Label>E-mail</Form.Label>
                       <Form.Control
                         type="email"
-                        name="email"
-                        value={formData.email}
+                        {...register("email")}
                         placeholder="Wprowadź adres e-mail"
-                        required
+                        isInvalid={!!errors.email}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.email?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
 
-                  {/* Prawa kolumna */}
                   <Col md={6}>
                     <h5 className="mb-3 text-secondary">Dane dostępowe</h5>
 
@@ -131,24 +136,27 @@ export const AddWorker = () => {
                       <Form.Label>Hasło</Form.Label>
                       <Form.Control
                         type="password"
-                        name="password"
-                        value={formData.password}
+                        {...register("password")}
                         placeholder="Wprowadź hasło"
-                        required
+                        isInvalid={!!errors.password}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.password?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                       <Form.Label>Rola</Form.Label>
                       <Form.Select
-                        name="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                        required
+                        {...register("role")}
+                        isInvalid={!!errors.role}
                       >
                         <option value="employee">Pracownik</option>
                         <option value="admin">Administrator</option>
                       </Form.Select>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.role?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -172,4 +180,5 @@ export const AddWorker = () => {
     </Container>
   );
 };
+
 export default AddWorker;

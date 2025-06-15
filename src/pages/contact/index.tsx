@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,27 +5,48 @@ import {
   faPhone,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useState } from "react";
+
+type ContactFormData = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+const schema = yup.object().shape({
+  name: yup.string().required("Imię i nazwisko jest wymagane"),
+  email: yup
+    .string()
+    .email("Wprowadź poprawny adres e-mail")
+    .required("E-mail jest wymagany"),
+  subject: yup.string().required("Temat jest wymagany"),
+  message: yup
+    .string()
+    .required("Wiadomość jest wymagana")
+    .min(10, "Wiadomość musi zawierać co najmniej 10 znaków"),
+});
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormData>({
+    resolver: yupResolver(schema),
+    mode: "onTouched",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
+  const onSubmit = (data: ContactFormData) => {
+    console.log("Form submitted:", data);
     setSubmitted(true);
+    reset();
   };
 
   return (
@@ -42,8 +62,6 @@ const Contact = () => {
       <Container>
         <Row className="justify-content-center">
           <Col md={10} sm={12}>
-            {" "}
-            {/* Increased column size to accommodate new content */}
             <Card
               style={{
                 padding: "30px",
@@ -61,7 +79,6 @@ const Contact = () => {
 
               <Row>
                 <Col md={6}>
-                  {/* Contact Information */}
                   <h4 className="mb-3" style={{ color: "#007bff" }}>
                     Nasze dane kontaktowe
                   </h4>
@@ -78,7 +95,6 @@ const Contact = () => {
                     kontakt@twojafirma.pl
                   </p>
 
-                  {/* Embedded Map */}
                   <div
                     className="map-container mb-4"
                     style={{
@@ -100,68 +116,67 @@ const Contact = () => {
                 </Col>
 
                 <Col md={6}>
-                  {/* Contact Form */}
                   {submitted ? (
                     <div className="alert alert-success text-center">
                       Dziękujemy za wiadomość! Skontaktujemy się z Tobą wkrótce.
                     </div>
                   ) : (
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
                       <Form.Group className="mb-3" controlId="formName">
                         <Form.Label>Imię i nazwisko</Form.Label>
                         <Form.Control
                           type="text"
-                          name="name"
+                          {...register("name")}
                           placeholder="Wpisz swoje imię i nazwisko"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
                           className="p-2"
-                          style={{ borderRadius: "6px" }}
+                          isInvalid={!!errors.name}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.name?.message}
+                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="formEmail">
                         <Form.Label>Adres e-mail</Form.Label>
                         <Form.Control
                           type="email"
-                          name="email"
+                          {...register("email")}
                           placeholder="Wpisz swój e-mail"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
                           className="p-2"
-                          style={{ borderRadius: "6px" }}
+                          isInvalid={!!errors.email}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.email?.message}
+                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="formSubject">
                         <Form.Label>Temat</Form.Label>
                         <Form.Control
                           type="text"
-                          name="subject"
+                          {...register("subject")}
                           placeholder="Temat wiadomości"
-                          value={formData.subject}
-                          onChange={handleChange}
-                          required
                           className="p-2"
-                          style={{ borderRadius: "6px" }}
+                          isInvalid={!!errors.subject}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.subject?.message}
+                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group className="mb-3" controlId="formMessage">
                         <Form.Label>Wiadomość</Form.Label>
                         <Form.Control
                           as="textarea"
-                          name="message"
-                          placeholder="Napisz swoją wiadomość..."
-                          value={formData.message}
-                          onChange={handleChange}
                           rows={5}
-                          required
+                          {...register("message")}
+                          placeholder="Napisz swoją wiadomość..."
                           className="p-2"
-                          style={{ borderRadius: "6px" }}
+                          isInvalid={!!errors.message}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.message?.message}
+                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Button
@@ -183,4 +198,5 @@ const Contact = () => {
     </div>
   );
 };
+
 export default Contact;

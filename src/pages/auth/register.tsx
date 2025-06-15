@@ -1,19 +1,67 @@
 import React from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Nieprawidłowy adres email")
+    .required("Email jest wymagany"),
+  password: yup
+    .string()
+    .required("Hasło jest wymagane")
+    .min(8, "Hasło musi mieć co najmniej 8 znaków")
+    .matches(/[A-Z]/, "Hasło musi zawierać wielką literę")
+    .matches(/\d/, "Hasło musi zawierać cyfrę")
+    .matches(
+      /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/,
+      "Hasło musi zawierać znak specjalny"
+    ),
+  confirmPassword: yup
+    .string()
+    .required("Potwierdzenie hasła jest wymagane")
+    .oneOf([yup.ref("password")], "Hasła nie są takie same"),
+  termsAccepted: yup.boolean().oneOf([true], "Musisz zaakceptować regulamin"),
+});
 
 export const Register = () => {
-  const [registerForm, setRegisterForm] = React.useState({
-    email: "",
-    login: "",
-    password: "",
-    confirmPassword: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: "onTouched",
   });
 
-  const register = async () => {
+  const [alert, setAlert] = React.useState<{
+    type: "danger" | "success";
+    message: string;
+  } | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = async (data: any) => {
     try {
-      return;
-    } catch (error) {
-      console.error(error);
+      console.log("Rejestracja:", data);
+      setAlert({
+        type: "success",
+        message: "Rejestracja zakończona sukcesem!",
+      });
+      reset();
+    } catch (err) {
+      console.error(err);
+      setAlert({ type: "danger", message: "Błąd podczas rejestracji." });
     }
   };
 
@@ -23,7 +71,6 @@ export const Register = () => {
         backgroundImage: "linear-gradient(to right, #f0f2f5, #e0e0e0)",
         minHeight: "100vh",
         display: "flex",
-        alignItems: "flex-center",
         paddingTop: "10%",
       }}
     >
@@ -38,87 +85,99 @@ export const Register = () => {
                 backgroundColor: "#fff",
               }}
             >
-              <h3
-                className="text-center mb-4"
-                style={{ fontWeight: "bold", color: "#007bff" }}
-              >
+              <h3 className="text-center mb-4" style={{ color: "#007bff" }}>
                 Zarejestruj się
               </h3>
-              <Form>
-                <Form.Group className="mb-3" controlId="formBasicName">
-                  <Form.Label className="text-start">Login</Form.Label>
+
+              {alert && (
+                <Alert
+                  variant={alert.type}
+                  onClose={() => setAlert(null)}
+                  dismissible
+                >
+                  {alert.message}
+                </Alert>
+              )}
+
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Wpisz swoje imię"
-                    className="p-2"
-                    style={{ borderRadius: "6px" }}
-                    onChange={(e) => {
-                      setRegisterForm({
-                        ...registerForm,
-                        login: e.target.value,
-                      });
-                    }}
+                    type="email"
+                    placeholder="Wpisz swój adres email"
+                    className={`p-2 ${errors.email ? "is-invalid" : ""}`}
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <div className="invalid-feedback">
+                      {errors.email.message}
+                    </div>
+                  )}
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3" controlId="formPassword">
                   <Form.Label>Hasło</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Hasło"
-                    className="p-2"
-                    style={{ borderRadius: "6px" }}
-                    onChange={(e) => {
-                      setRegisterForm({
-                        ...registerForm,
-                        password: e.target.value,
-                      });
-                    }}
+                    className={`p-2 ${errors.password ? "is-invalid" : ""}`}
+                    {...register("password")}
                   />
+                  {errors.password && (
+                    <div className="invalid-feedback">
+                      {errors.password.message}
+                    </div>
+                  )}
                 </Form.Group>
 
-                <Form.Group
-                  className="mb-3"
-                  controlId="formBasicConfirmPassword"
-                >
+                <details className="mb-3">
+                  <summary className="text-muted">
+                    Zasady dotyczące hasła
+                  </summary>
+                  <ul className="small mt-2 ms-3">
+                    <li>Min. 8 znaków</li>
+                    <li>Przynajmniej 1 duża litera</li>
+                    <li>Przynajmniej 1 cyfra</li>
+                    <li>Przynajmniej 1 znak specjalny</li>
+                  </ul>
+                </details>
+
+                <Form.Group className="mb-3" controlId="formConfirmPassword">
                   <Form.Label>Potwierdź hasło</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Potwierdź hasło"
-                    className="p-2"
-                    style={{ borderRadius: "6px" }}
-                    onChange={(e) => {
-                      setRegisterForm({
-                        ...registerForm,
-                        confirmPassword: e.target.value,
-                      });
-                    }}
+                    className={`p-2 ${
+                      errors.confirmPassword ? "is-invalid" : ""
+                    }`}
+                    {...register("confirmPassword")}
                   />
+                  {errors.confirmPassword && (
+                    <div className="invalid-feedback">
+                      {errors.confirmPassword.message}
+                    </div>
+                  )}
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label className="text-start">Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Wpisz swój adres email"
-                    className="p-2"
-                    style={{ borderRadius: "6px" }}
-                    onChange={(e) => {
-                      setRegisterForm({
-                        ...registerForm,
-                        email: e.target.value,
-                      });
-                    }}
+                <Form.Group className="mb-4" controlId="formTerms">
+                  <Form.Check
+                    type="checkbox"
+                    label="Akceptuję regulamin"
+                    {...register("termsAccepted")}
+                    isInvalid={!!errors.termsAccepted}
                   />
+                  {errors.termsAccepted && (
+                    <div className="text-danger small">
+                      {errors.termsAccepted.message}
+                    </div>
+                  )}
                 </Form.Group>
+
                 <Button
                   variant="primary"
                   type="submit"
                   className="w-100 py-2"
                   style={{ borderRadius: "6px", fontWeight: "bold" }}
-                  onClick={() => {
-                    register();
-                  }}
                 >
                   Zarejestruj
                 </Button>

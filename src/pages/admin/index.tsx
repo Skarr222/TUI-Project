@@ -95,7 +95,7 @@ function AdminDashboard() {
                 szczegóły.
               </Card.Text>
               <Link
-                to="/admin/offers/add"
+                to="/admin/offer/add"
                 className="btn btn-success mt-auto w-100"
               >
                 Dodaj Ofertę

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Container,
   Card,
@@ -7,80 +7,63 @@ import {
   Col,
   Button,
   Alert,
-  Image,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaSave, FaArrowLeft } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-interface Offer {
-  id: number;
+const offerSchema = yup.object().shape({
+  title: yup.string().required("Tytuł oferty jest wymagany"),
+  destination: yup.string().required("Destynacja jest wymagana"),
+  description: yup.string().required("Opis jest wymagany"),
+  price: yup
+    .number()
+    .typeError("Cena musi być liczbą")
+    .positive("Cena musi być większa niż 0")
+    .required("Cena jest wymagana"),
+  duration: yup.string().required("Czas trwania jest wymagany"),
+  category: yup.string().required("Wybierz kategorię"),
+});
+
+type OfferFormData = {
   title: string;
   destination: string;
   description: string;
   price: number;
   duration: string;
-  image: string;
   category: string;
-}
+};
 
 export const AddOffer = () => {
-  const [formData, setFormData] = useState<Omit<Offer, "id">>({
-    title: "",
-    destination: "",
-    description: "",
-    price: 0,
-    duration: "",
-    image: "",
-    category: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<OfferFormData>({
+    resolver: yupResolver(offerSchema),
+    mode: "onTouched",
   });
 
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
+  );
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "price" ? Number(value) : value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = (data: OfferFormData) => {
     setSuccessMessage(null);
     setErrorMessage(null);
 
-    const { title, destination, description, price, duration, category } =
-      formData;
-
-    if (
-      !title ||
-      !destination ||
-      !description ||
-      price <= 0 ||
-      !duration ||
-      !category
-    ) {
-      setErrorMessage(
-        "Wypełnij wszystkie wymagane pola i upewnij się, że cena jest większa od 0."
-      );
-      return;
+    try {
+      console.log("Dodawanie oferty:", data);
+      setSuccessMessage("Oferta została pomyślnie dodana!");
+      reset();
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Wystąpił błąd podczas dodawania oferty.");
     }
-
-    setSuccessMessage("Oferta została pomyślnie dodana!");
-    setFormData({
-      title: "",
-      destination: "",
-      description: "",
-      price: 0,
-      duration: "",
-      image: "",
-      category: "",
-    });
   };
 
   return (
@@ -98,9 +81,8 @@ export const AddOffer = () => {
               )}
               {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row className="g-4">
-                  {/* Lewa kolumna */}
                   <Col md={6}>
                     <h5 className="mb-3 text-secondary">Podstawowe dane</h5>
 
@@ -108,53 +90,55 @@ export const AddOffer = () => {
                       <Form.Label>Tytuł oferty</Form.Label>
                       <Form.Control
                         type="text"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
+                        {...register("title")}
                         placeholder="Wprowadź tytuł oferty"
-                        required
+                        isInvalid={!!errors.title}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.title?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                       <Form.Label>Destynacja</Form.Label>
                       <Form.Control
                         type="text"
-                        name="destination"
-                        value={formData.destination}
-                        onChange={handleChange}
+                        {...register("destination")}
                         placeholder="Np. Santorini, Grecja"
-                        required
+                        isInvalid={!!errors.destination}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.destination?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                       <Form.Label>Cena (PLN)</Form.Label>
                       <Form.Control
                         type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
+                        {...register("price")}
                         placeholder="Wprowadź cenę"
-                        min="0"
-                        required
+                        isInvalid={!!errors.price}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.price?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                       <Form.Label>Czas trwania</Form.Label>
                       <Form.Control
                         type="text"
-                        name="duration"
-                        value={formData.duration}
-                        onChange={handleChange}
+                        {...register("duration")}
                         placeholder="Np. 7 dni"
-                        required
+                        isInvalid={!!errors.duration}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.duration?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
 
-                  {/* Prawa kolumna */}
                   <Col md={6}>
                     <h5 className="mb-3 text-secondary">Szczegóły oferty</h5>
 
@@ -162,43 +146,20 @@ export const AddOffer = () => {
                       <Form.Label>Opis oferty</Form.Label>
                       <Form.Control
                         as="textarea"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
                         rows={5}
+                        {...register("description")}
                         placeholder="Szczegółowy opis oferty..."
-                        required
+                        isInvalid={!!errors.description}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.description?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
-
-                    <Form.Group className="mb-3">
-                      <Form.Label>URL obrazu</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="image"
-                        value={formData.image}
-                        onChange={handleChange}
-                        placeholder="Np. /offers/greece.jpeg"
-                      />
-                      {formData.image && (
-                        <div className="text-center mt-3">
-                          <Image
-                            src={formData.image}
-                            alt="Podgląd oferty"
-                            thumbnail
-                            style={{ maxHeight: "150px", objectFit: "cover" }}
-                          />
-                        </div>
-                      )}
-                    </Form.Group>
-
                     <Form.Group className="mb-3">
                       <Form.Label>Kategoria</Form.Label>
                       <Form.Select
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                        required
+                        {...register("category")}
+                        isInvalid={!!errors.category}
                       >
                         <option value="">Wybierz kategorię</option>
                         <option value="europa">Europa</option>
@@ -207,6 +168,9 @@ export const AddOffer = () => {
                         <option value="ameryka">Ameryka</option>
                         <option value="oceania">Oceania</option>
                       </Form.Select>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.category?.message}
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
                 </Row>
